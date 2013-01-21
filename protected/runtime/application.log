@@ -1,0 +1,12 @@
+2013/01/21 16:19:04 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'khanhblog.tbl_' doesn't exist. The SQL statement executed was: SHOW COLUMNS FROM `tbl_`.
+in E:\wamp\www\yii\app\blog\index.php (13)
+2013/01/21 16:48:25 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "article".' in E:\wamp\www\yii\framework\web\CController.php:484
+Stack trace:
+#0 E:\wamp\www\yii\framework\web\CController.php(271): CController->missingAction('article')
+#1 E:\wamp\www\yii\framework\web\CWebApplication.php(283): CController->run('article')
+#2 E:\wamp\www\yii\framework\web\CWebApplication.php(142): CWebApplication->runController('site/article')
+#3 E:\wamp\www\yii\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 E:\wamp\www\yii\app\blog\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii/app/blog/site/article
+---
