@@ -50,7 +50,7 @@ return array(
 		),
         */		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=yii',
+			'connectionString' => 'mysql:host=localhost;dbname=khanhblog',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
