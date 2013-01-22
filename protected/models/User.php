@@ -7,7 +7,6 @@
  * @property integer $id
  * @property string $username
  * @property string $password
- * @property string $salt
  * @property string $email
  * @property string $phone
  * @property string $address
@@ -41,13 +40,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, salt, email', 'required'),
-			array('username, password, salt, email, address', 'length', 'max'=>128),
+			array('username, password, email', 'required'),
+			array('username, password, email, address', 'length', 'max'=>128),
 			array('phone', 'length', 'max'=>10),
 			array('profile', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, username, password, salt, email, phone, address, profile', 'safe', 'on'=>'search'),
+			array('id, username, password, email, phone, address, profile', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,7 +70,6 @@ class User extends CActiveRecord
 			'id' => 'ID',
 			'username' => 'Username',
 			'password' => 'Password',
-			'salt' => 'Salt',
 			'email' => 'Email',
 			'phone' => 'Phone',
 			'address' => 'Address',
@@ -90,17 +88,40 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		//$criteria->compare('id',$this->id);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('username',$this->username,true);
-		//$criteria->compare('password',$this->password,true);
-		//$criteria->compare('salt',$this->salt,true);
+		$criteria->compare('password',$this->password,true);
 		$criteria->compare('email',$this->email,true);
-		//$criteria->compare('phone',$this->phone,true);
-		//$criteria->compare('address',$this->address,true);
-		//$criteria->compare('profile',$this->profile,true);
+		$criteria->compare('phone',$this->phone,true);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('profile',$this->profile,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+    
+    /**
+     * Generate a random salt in the crypt(3) standard Blowfish format.
+     *
+     * @param int $cost Cost parameter from 4 to 31.
+     *
+     * @throws Exception on invalid cost parameter.
+     * @return string A Blowfish hash salt for use in PHP's crypt()
+     */
+    function blowfishSalt($cost = 10)
+    {
+        if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
+            throw new Exception("cost parameter must be between 4 and 31");
+        }
+        $rand = array();
+        for ($i = 0; $i < 8; $i += 1) {
+            $rand[] = pack('S', mt_rand(0, 0xffff));
+        }
+        $rand[] = substr(microtime(), 2, 6);
+        $rand = sha1(implode('', $rand), true);
+        $salt = '$2a$' . str_pad((int) $cost, 2, '0', STR_PAD_RIGHT) . '$';
+        $salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
+        return $salt;
+    }
 }

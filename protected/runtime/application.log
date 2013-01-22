@@ -10,3 +10,59 @@ Stack trace:
 #5 {main}
 REQUEST_URI=/yii/app/blog/site/article
 ---
+2013/01/22 03:36:43 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[42000] [1049] Unknown database 'khanhblog'' in C:\wamp\www\yii1112\framework\db\CDbConnection.php:382
+Stack trace:
+#0 C:\wamp\www\yii1112\framework\db\CDbConnection.php(331): CDbConnection->open()
+#1 C:\wamp\www\yii1112\framework\db\CDbConnection.php(309): CDbConnection->setActive(true)
+#2 C:\wamp\www\yii1112\framework\base\CModule.php(388): CDbConnection->init()
+#3 C:\wamp\www\yii1112\framework\base\CModule.php(104): CModule->getComponent('db')
+#4 C:\wamp\www\yii1112\framework\gii\generators\model\ModelCode.php(57): CModule->__get('db')
+#5 C:\wamp\www\yii1112\framework\web\CFormModel.php(40): ModelCode->init()
+#6 C:\wamp\www\yii1112\framework\gii\CCodeGenerator.php(154): CFormModel->__construct()
+#7 C:\wamp\www\yii1112\framework\gii\CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 C:\wamp\www\yii1112\framework\web\actions\CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 C:\wamp\www\yii1112\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 C:\wamp\www\yii1112\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 C:\wamp\www\yii1112\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\wamp\www\yii1112\framework\web\CWebApplication.php(283): CController->run('')
+#13 C:\wamp\www\yii1112\framework\web\CWebApplication.php(142): CWebApplication->runController('gii/model')
+#14 C:\wamp\www\yii1112\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 C:\wamp\www\yii1112\app\blog\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/yii1112/app/blog/gii/model
+HTTP_REFERER=http://localhost/yii1112/app/blog/gii/default/index
+---
+2013/01/22 03:42:34 [error] [exception.CException] exception 'CException' with message 'User and its behaviors do not have a method or closure named "validatePassword".' in C:\wamp\www\yii1112\framework\base\CComponent.php:266
+Stack trace:
+#0 C:\wamp\www\yii1112\framework\db\ar\CActiveRecord.php(226): CComponent->__call('validatePasswor...', Array)
+#1 C:\wamp\www\yii1112\app\blog\protected\components\UserIdentity.php(29): CActiveRecord->__call('validatePasswor...', Array)
+#2 C:\wamp\www\yii1112\app\blog\protected\components\UserIdentity.php(29): User->validatePassword('21892109')
+#3 C:\wamp\www\yii1112\app\blog\protected\models\LoginForm.php(52): UserIdentity->authenticate()
+#4 C:\wamp\www\yii1112\framework\validators\CInlineValidator.php(43): LoginForm->authenticate('password', Array)
+#5 C:\wamp\www\yii1112\framework\validators\CValidator.php(214): CInlineValidator->validateAttribute(Object(LoginForm), 'password')
+#6 C:\wamp\www\yii1112\framework\base\CModel.php(158): CValidator->validate(Object(LoginForm), NULL)
+#7 C:\wamp\www\yii1112\app\blog\protected\controllers\SiteController.php(94): CModel->validate()
+#8 C:\wamp\www\yii1112\framework\web\actions\CInlineAction.php(50): SiteController->actionLogin()
+#9 C:\wamp\www\yii1112\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 C:\wamp\www\yii1112\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#11 C:\wamp\www\yii1112\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\wamp\www\yii1112\framework\web\CWebApplication.php(283): CController->run('login')
+#13 C:\wamp\www\yii1112\framework\web\CWebApplication.php(142): CWebApplication->runController('site/login')
+#14 C:\wamp\www\yii1112\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 C:\wamp\www\yii1112\app\blog\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/yii1112/app/blog/site/login
+HTTP_REFERER=http://localhost/yii1112/app/blog/site/login
+---
+2013/01/22 04:42:37 [error] [php] mail() [<a href='function.mail'>function.mail</a>]: Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() (C:\wamp\www\yii1112\app\blog\protected\controllers\SiteController.php:67)
+Stack trace:
+#0 C:\wamp\www\yii1112\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\wamp\www\yii1112\framework\web\CController.php(287): SiteController->runAction()
+#2 C:\wamp\www\yii1112\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#3 C:\wamp\www\yii1112\framework\web\CWebApplication.php(283): SiteController->run()
+#4 C:\wamp\www\yii1112\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#5 C:\wamp\www\yii1112\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#6 C:\wamp\www\yii1112\app\blog\index.php(13): CWebApplication->run()
+REQUEST_URI=/yii1112/app/blog/site/contact
+in C:\wamp\www\yii1112\app\blog\protected\controllers\SiteController.php (67)
+in C:\wamp\www\yii1112\app\blog\index.php (13)

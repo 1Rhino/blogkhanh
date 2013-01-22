@@ -1,19 +1,20 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : buikhanh
+Source Server         : Yii blog
 Source Server Version : 50516
 Source Host           : localhost:3306
-Source Database       : khanhblog
+Source Database       : yii
 
 Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2013-01-22 00:52:05
+Date: 2013-01-22 12:59:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
 -- ----------------------------
 -- Table structure for `tbl_article`
 -- ----------------------------
@@ -35,7 +36,7 @@ CREATE TABLE `tbl_article` (
 -- ----------------------------
 -- Records of tbl_article
 -- ----------------------------
-INSERT INTO `tbl_article` VALUES ('1', 'Chia tay YuMe', 'Hết tuần này là chia tay YuMe.', 'Hết tuần này là chia tay YuMe.\r\nChuẩn bị tìm việc mới', 'Yume, chia-tay', '1', '1', null, null, '1');
+INSERT INTO `tbl_article` VALUES ('1', 'Chia tay', 'Hết tuần này là chia tay. Một cánh cửa mới sẽ mở ra', 'Hết tuần này là chia tay YuMe.\r\nChuẩn bị tìm việc mới', 'Yume, chia-tay', '1', '1', null, null, '1');
 
 -- ----------------------------
 -- Table structure for `tbl_category`
@@ -130,7 +131,6 @@ CREATE TABLE `tbl_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `salt` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
   `phone` decimal(10,0) DEFAULT NULL,
   `address` varchar(128) DEFAULT NULL,
@@ -141,4 +141,4 @@ CREATE TABLE `tbl_user` (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'admin', 'e4c8294ee7f4d8d57bb1ddd639555090', '77612c8f7d163d961ea9d2d0906d799e', 'buikhanh.bk@gmail.com', '986205854', 'Gò Vấp, HCMC', 'Chase excellent. Success will follow.');
+INSERT INTO `tbl_user` VALUES ('1', 'admin', '$2a$10$7ckbXPuO3N0sn0nogdJUC.f2X2Hqo./pfamm1YyIOp7NzczlnuF/u', 'buikhanh.bk@gmail.com', '986205854', 'Gò Vấp, HCMC', 'Chase excellent. Success will follow.');

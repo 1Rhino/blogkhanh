@@ -6,7 +6,7 @@ $this->pageTitle=Yii::app()->name;
 
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
-<p>Hi. I'm a PHP developer. I love opensource, design, webapp...</p>
+<p>Hi. I'm a PHP developer.</p>
 
 <p>Wellcome to my website. Have fun!</p>
 
