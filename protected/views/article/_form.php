@@ -22,27 +22,21 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'image'); ?>
+		<?php echo $form->textField($model,'image',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'image'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'intro'); ?>
-		<?php echo $form->textArea($model,'intro',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'intro',array('rows'=>4, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'intro'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'content'); ?>
-		<?php echo $form->textArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'content',array('rows'=>7, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'content'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'tags'); ?>
-		<?php echo $form->textArea($model,'tags',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'tags'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
-		<?php echo $form->error($model,'status'); ?>
 	</div>
 
 	<div class="row">
@@ -52,23 +46,23 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'create_time'); ?>
-		<?php echo $form->textField($model,'create_time'); ?>
-		<?php echo $form->error($model,'create_time'); ?>
+		<?php echo $form->labelEx($model,'tags'); ?>
+		<?php echo $form->textField($model,'tags',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'tags'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'update_time'); ?>
-		<?php echo $form->textField($model,'update_time'); ?>
-		<?php echo $form->error($model,'update_time'); ?>
+		<?php echo $form->labelEx($model,'status'); ?>
+        <?php echo $form->dropDownList($model, 'status', Status::items('ArticleStatus')); ?>		
+		<?php echo $form->error($model,'status'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'author_id'); ?>
-		<?php echo $form->textField($model,'author_id'); ?>
-		<?php echo $form->error($model,'author_id'); ?>
+		<?php echo $form->labelEx($model,'hot'); ?>
+        <?php echo $form->checkBox($model,'hot'); ?>		
+		<?php echo $form->error($model,'hot'); ?>
 	</div>
-
+    
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

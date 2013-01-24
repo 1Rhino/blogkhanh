@@ -47,14 +47,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'id',
 		'title',
+		'image',
 		'intro',
 		'content',
+		'category',
+		/*
 		'tags',
 		'status',
-		/*
-		'category',
+		'hot',
 		'create_time',
 		'update_time',
+		'click',
 		'author_id',
 		*/
 		array(

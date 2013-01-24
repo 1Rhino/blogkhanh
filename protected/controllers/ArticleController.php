@@ -2,6 +2,12 @@
 
 class ArticleController extends Controller
 {
+    
+    /**
+	 * @var CActiveRecord the currently loaded data model instance.
+	 */
+	private $_model;
+    
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -51,8 +57,9 @@ class ArticleController extends Controller
 	 */
 	public function actionView($id)
 	{
+	   $article = $this->loadModel($id);       
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$article
 		));
 	}
 
@@ -122,7 +129,21 @@ class ArticleController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Article');
+	    $criteria = new CDbCriteria(array(
+			'condition'=>'status='.Article::STATUS_PUBLISHED,
+			'order'=>'update_time DESC',
+			'with'=>'commentCount',
+		));
+        if (isset($_GET['tag'])) {
+            $criteria->addSearchCondition('tags', $_GET['tag']);
+        }
+		$dataProvider=new CActiveDataProvider('Article', array(
+            'pagination'=>array(
+                'pageSize'=>5                
+            ), 
+            'criteria'=>$criteria
+        ));
+        
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -150,10 +171,20 @@ class ArticleController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Article::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
+	   if ($this->_model === null) 
+       {        
+            if(Yii::app()->user->isGuest)
+            {
+                $condition = 'status=' . Article::STATUS_PUBLISHED
+                    . ' OR status=' . Article::STATUS_ARCHIVED;
+            }
+            else
+                $condition = '';
+            $this->_model = Article::model()->findByPk($id, $condition);            
+            if($this->_model === null)
+                throw new CHttpException(404, 'The requested page does not exist.');                
+       }        
+       return $this->_model;        		
 	}
 
 	/**

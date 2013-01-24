@@ -27,7 +27,9 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),	
 	),
-
+    
+    //'defaultController'=>'article',
+    
 	// application components
 	'components'=>array(
 		'user'=>array(

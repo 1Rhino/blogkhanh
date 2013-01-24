@@ -6,17 +6,26 @@
  * The followings are the available columns in table '{{article}}':
  * @property integer $id
  * @property string $title
+ * @property string $image
  * @property string $intro
  * @property string $content
+ * @property integer $category
  * @property string $tags
  * @property integer $status
- * @property integer $category
+ * @property integer $hot
  * @property integer $create_time
  * @property integer $update_time
+ * @property integer $click
  * @property integer $author_id
  */
 class Article extends CActiveRecord
-{
+{    
+    const STATUS_DRAFT=1;
+	const STATUS_PUBLISHED=2;
+	const STATUS_ARCHIVED=3;
+    
+    private $_oldTags;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -43,15 +52,16 @@ class Article extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, intro, content, status, category', 'required'),
-			array('status, category, create_time, update_time, author_id', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>128),
-            array('status', 'in', 'range'=>array(1, 2, 3)),
-			array('tags', 'match', 'pattern'=>'/^[\w\s]+$/', 'message'=>'Tags can only contain word characters.'),
+			array('title, intro, content, category, status', 'required'),
+			array('category, status, hot, create_time, update_time, click, author_id', 'numerical', 'integerOnly'=>true),
+			array('title, image', 'length', 'max'=>255),
+			array('status', 'in', 'range'=>array(1, 2, 3)),
+            array('tags', 'safe'),            
+			array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/', 'message'=>'Tags can only contain word characters.'),
             array('tags', 'normalizeTags'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('title, status, category', 'safe', 'on'=>'search'),
+			array('title, category, status, hot', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,11 +74,10 @@ class Article extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'author' => array(self::BELONGS_TO, 'User', 'author_id'),
-            'comments' => array(self::HAS_MANY, 'Comment', 'post_id',
+            'comments' => array(self::HAS_MANY, 'Comment', 'article_id',
                 'condition' => 'comments.status='.Comment::STATUS_APPROVED,
                 'order' => 'comments.create_time DESC'),
-            'commentCount' => array(self::STAT, 'Comment', 'post_id',
-                'condition' => 'status' . Comment::STATUS_APPROVED),
+            'commentCount' => array(self::STAT, 'Comment', 'article_id', 'condition' => 'status=' . Comment::STATUS_APPROVED),
 		);
 	}
 
@@ -80,13 +89,16 @@ class Article extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'title' => 'Title',
+			'image' => 'Image',
 			'intro' => 'Intro',
 			'content' => 'Content',
+			'category' => 'Category',
 			'tags' => 'Tags',
 			'status' => 'Status',
-			'category' => 'Category',
+			'hot' => 'Hot',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
+			'click' => 'Click',
 			'author_id' => 'Author',
 		);
 	}
@@ -102,16 +114,19 @@ class Article extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		//$criteria->compare('id',$this->id);
 		$criteria->compare('title',$this->title,true);
-		$criteria->compare('intro',$this->intro,true);
-		$criteria->compare('content',$this->content,true);
+		//$criteria->compare('image',$this->image,true);
+		//$criteria->compare('intro',$this->intro,true);
+		//$criteria->compare('content',$this->content,true);
+		$criteria->compare('category',$this->category);
 		$criteria->compare('tags',$this->tags,true);
 		$criteria->compare('status',$this->status);
-		$criteria->compare('category',$this->category);
-		$criteria->compare('create_time',$this->create_time);
-		$criteria->compare('update_time',$this->update_time);
-		$criteria->compare('author_id',$this->author_id);
+		$criteria->compare('hot',$this->hot);
+		//$criteria->compare('create_time',$this->create_time);
+		//$criteria->compare('update_time',$this->update_time);
+		//$criteria->compare('click',$this->click);
+		//$criteria->compare('author_id',$this->author_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -122,4 +137,62 @@ class Article extends CActiveRecord
     {
         $this->tags = Tag::array2string(array_unique(Tag::string2array($this->tags)));
     }
+    
+    /**
+	 * @return string the URL that shows the detail of the article
+	 */
+    public function getUrl()
+	{
+		return Yii::app()->createUrl('article/view', array(
+			'id'=>$this->id,
+			'title'=>$this->title,
+		));
+	}
+    
+    /**
+	 * @return array a list of links that point to the post list filtered by every tag of this post
+	 */
+	public function getTagLinks()
+	{
+		$links=array();
+		foreach(Tag::string2array($this->tags) as $tag)
+			$links[]=CHtml::link(CHtml::encode($tag), array('article/index', 'tag'=>$tag));
+		return $links;
+	}
+    
+    protected function beforeSave()
+    {
+        if(parent::beforeSave())
+        {
+            if($this->isNewRecord)
+            {
+                $this->create_time = $this->update_time = time();
+                $this->author_id = Yii::app()->user->id;
+            }
+            else
+                $this->update_time = time();
+            return true;
+            
+        }
+        else
+            return false;
+    }
+    
+    protected function afterSave()
+    {
+        parent::afterSave();
+        Tag::model()->updateFrequency($this->_oldTags, $this->tags);
+    }
+    
+    protected function afterFind()
+    {
+        parent::afterFind();
+        $this->_oldTags = $this->tags;
+    }
+    
+    
+    
+    
+    
+    
 }

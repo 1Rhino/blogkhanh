@@ -22,6 +22,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'image'); ?>
+		<?php echo $form->textField($model,'image',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'intro'); ?>
 		<?php echo $form->textArea($model,'intro',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
@@ -29,6 +34,11 @@
 	<div class="row">
 		<?php echo $form->label($model,'content'); ?>
 		<?php echo $form->textArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'category'); ?>
+		<?php echo $form->textField($model,'category'); ?>
 	</div>
 
 	<div class="row">
@@ -42,8 +52,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'category'); ?>
-		<?php echo $form->textField($model,'category'); ?>
+		<?php echo $form->label($model,'hot'); ?>
+		<?php echo $form->textField($model,'hot'); ?>
 	</div>
 
 	<div class="row">
@@ -54,6 +64,11 @@
 	<div class="row">
 		<?php echo $form->label($model,'update_time'); ?>
 		<?php echo $form->textField($model,'update_time'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'click'); ?>
+		<?php echo $form->textField($model,'click'); ?>
 	</div>
 
 	<div class="row">
